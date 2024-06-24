@@ -30,9 +30,9 @@ module "main" {
   name = var.prefix
   cidr = var.cidr_block
 
-  azs                     = slice(data.aws_availability_zones.available.names, 0, length(var.public_subnets))
-  public_subnets          = [for k, v in var.public_subnets : v]
-  public_subnet_names     = [for k, v in var.public_subnets : "${var.prefix}-${k}"]
+  azs                     = slice(data.aws_availability_zones.available.names, 0, length(data.tfe_outputs.networking.nonsensitive_values.public_subnets))
+  public_subnets          = [for k, v in data.tfe_outputs.networking.nonsensitive_values.public_subnets : v]
+  public_subnet_names     = [for k, v in data.tfe_outputs.networking.nonsensitive_values.public_subnets : "${var.prefix}-${k}"]
   enable_dns_hostnames    = true
   public_subnet_suffix    = ""
   public_route_table_tags = { Name = "${var.prefix}-public" }
